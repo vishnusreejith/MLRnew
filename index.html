@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Course: Machine Learning with R</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons for UI elements -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        /* Style for active navigation link */
+        .sidebar-link.active {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        /* Animation for content fade-in */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom styles for code blocks */
+        pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #334155;
+            color: #cbd5e1;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #475569;
+        }
+        /* Quiz question styling */
+        .quiz-option {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .quiz-option.selected {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+        .quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        .explanation {
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="flex h-screen bg-gray-50">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg p-4 flex-shrink-0 overflow-y-auto transition-transform duration-300 ease-in-out transform -translate-x-full md:translate-x-0">
+            <div class="flex items-center gap-3 mb-8">
+                <i class="ph ph-robot text-3xl text-blue-600"></i>
+                <h1 class="text-xl font-bold text-slate-900">ML with R</h1>
+            </div>
+            <nav id="nav-links" class="space-y-2">
+                <a href="#home" class="sidebar-link group active flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-house text-xl"></i>
+                    <span>Welcome</span>
+                </a>
+                <a href="#module1" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-rocket-launch text-xl"></i>
+                    <span>1. Your First Steps</span>
+                </a>
+                <a href="#module2" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-code text-xl"></i>
+                    <span>2. Speaking R</span>
+                </a>
+                <a href="#module3" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-table text-xl"></i>
+                    <span>3. Working with Data</span>
+                </a>
+                <a href="#module4" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-paint-brush text-xl"></i>
+                    <span>4. First Visualization</span>
+                </a>
+                <a href="#module5" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-chart-line text-xl"></i>
+                    <span>5. Finding Trends</span>
+                </a>
+                <a href="#module6" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-graph text-xl"></i>
+                    <span>6. Making Predictions</span>
+                </a>
+                <a href="#module6_5" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-tree-structure text-xl"></i>
+                    <span>6.5. A Better Model</span>
+                </a>
+                <a href="#module7" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-function text-xl"></i>
+                    <span>7. Deeper Look (Stats)</span>
+                </a>
+                <a href="#module8" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-fire text-xl"></i>
+                    <span>8. Project: Forest Fires</span>
+                </a>
+                <a href="#module9" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-buildings text-xl"></i>
+                    <span>9. Project: GHG Emissions</span>
+                </a>
+                <a href="#module10" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-wind text-xl"></i>
+                    <span>10. Project: Cyclones</span>
+                </a>
+                <a href="#module11" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-thermometer-hot text-xl"></i>
+                    <span>11. Project: Heat Waves</span>
+                </a>
+                <a href="#module12" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-virus text-xl"></i>
+                    <span>12. Project: Disease Spread</span>
+                </a>
+                <a href="#module13" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-mask-happy text-xl"></i>
+                    <span>13. Project: COVID-19 Risk</span>
+                </a>
+                <a href="#module13_5" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-test-tube text-xl"></i>
+                    <span>13.5. Advanced COVID Risk</span>
+                </a>
+                <a href="#quiz" class="sidebar-link group flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-500 hover:text-white transition-colors">
+                    <i class="ph ph-question text-xl"></i>
+                    <span>Knowledge Check</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Mobile Header -->
+        <header class="md:hidden fixed top-0 left-0 right-0 bg-white shadow-md p-2 z-10 flex items-center">
+            <button id="menu-toggle" class="p-2 rounded-md hover:bg-slate-100">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+            <div class="flex items-center gap-2 ml-4">
+                <i class="ph ph-robot text-2xl text-blue-600"></i>
+                <h1 class="text-lg font-bold text-slate-900">ML with R</h1>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-6 md:p-8 overflow-y-auto mt-12 md:mt-0">
+            <!-- Welcome Section -->
+            <section id="home" class="content-section" style="display: block;">
+                <h2 class="text-4xl font-bold mb-4 text-slate-900">👋 Welcome to Your Data Science Journey!</h2>
+                <p class="text-lg text-slate-600 mb-6 max-w-3xl">This interactive course is your first step into the exciting world of data. We'll learn the basics of the R programming language and use it to uncover stories hidden in real-world climate data. No prior experience is needed!</p>
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                    <h3 class="text-2xl font-semibold mb-3 text-blue-700 flex items-center gap-2"><i class="ph ph-books"></i>What We'll Cover 📚</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-700">
+                        <li>🛠️ Setting up your tools and writing your first lines of R code.</li>
+                        <li>🕵️‍♀️ How to load and look at data, just like a real data scientist.</li>
+                        <li>🧠 Building powerful models like Linear Regression and Random Forests.</li>
+                        <li>🔥 Applying your skills to estimate pollution from forest fires and GHG emissions.</li>
+                        <li>🌀 Predicting cyclone intensity with Support Vector Machines (SVMs).</li>
+                        <li>☀️ Forecasting the probability of heat waves with Logistic Regression.</li>
+                        <li>🦠 Modeling infectious disease spread with Poisson Regression.</li>
+                        <li>😷 Estimating indoor COVID-19 infection risk with epidemiological models.</li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 bg-blue-100 border-l-4 border-blue-500 text-blue-800 rounded-r-lg">
+                    <p><strong class="font-semibold">Ready to begin?</strong> Use the numbered navigation on the left to start with Module 1.</p>
+                </div>
+            </section>
+
+            <!-- Module 1: Your First Steps -->
+            <section id="module1" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 1: Your First Steps with R 🚀</h2>
+                <p class="text-slate-600 mb-6">Before we can analyze data, we need to set up our workshop. This involves installing two key pieces of free software.</p>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Your Essential Tools 🛠️</h3>
+                <ol class="list-decimal list-inside space-y-4 mb-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <li>
+                        <strong>R: The Engine.</strong> ⚙️ This is the core programming language itself. It does all the heavy lifting and calculations.
+                        <a href="https://cran.r-project.org/" target="_blank" class="block mt-1 text-blue-600 hover:underline font-medium">Download R here &rarr;</a>
+                    </li>
+                    <li>
+                        <strong>RStudio: The Dashboard.</strong> 🖥️ This is a user-friendly application that makes it much easier to write R code, see your charts, and manage your projects.
+                        <a href="https://posit.co/download/rstudio-desktop/" target="_blank" class="block mt-1 text-blue-600 hover:underline font-medium">Download RStudio Desktop here &rarr;</a>
+                    </li>
+                </ol>
+                <p class="text-slate-600">Once you've installed both, open RStudio. You'll see a few different panels. For now, we'll focus on the top-left one, the script editor, where you'll write your code.</p>
+            </section>
+
+            <!-- Module 2: Speaking R -->
+            <section id="module2" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 2: Speaking R - The Basics 🗣️</h2>
+                <p class="text-slate-600 mb-6">Let's learn the basic grammar of R. We'll create variables to store information and learn about helpful "packages" that give R new superpowers.</p>
+
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Creating a Variable 📦</h3>
+                <p class="mb-4">In programming, we store information in variables. In R, we use the `<-` symbol, which looks like an arrow, to assign a value to a variable.</p>
+<pre><code class="language-r"># Here, we store the number 10 in a variable named 'x'
+x <- 10
+
+# Now we can just use 'x' to get that value
+x + 5
+</code></pre>
+                <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">x <- 10</code>: The arrow <code><-</code> is the <strong>assignment operator</strong>. It takes the value on the right (<code>10</code>) and stores it in the variable named <code>x</code>.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">#</code>: The hash symbol indicates a <strong>comment</strong>. R ignores any text after it on the same line. Programmers use comments to leave notes.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">x + 5</code>: We can now use the variable <code>x</code> in calculations. R knows that <code>x</code> holds the value 10, so this line will output <code>15</code>.</li>
+                    </ul>
+                </div>
+
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Extending R with Packages 🧩</h3>
+                <p class="mb-4">Packages are add-ons created by the community that give R new functions. We will use some of the most popular packages in the world. You only need to install them once.</p>
+<pre><code class="language-r"># Run this in your R console once to install the packages
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("rpart")
+install.packages("rpart.plot")
+install.packages("randomForest")
+install.packages("e1071") # For SVM in Module 10
+
+# To use them in a script, you have to load them first
+library(dplyr)
+library(ggplot2)
+</code></pre>
+                 <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">install.packages("package_name")</code>: This command downloads a package from the internet and installs it on your computer. You only need to run this once per package.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">library(package_name)</code>: This command "activates" or loads an installed package into your current R session, making all its special functions available to use. You must run this at the start of every R script where you want to use that package.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Module 3: Working with Data -->
+            <section id="module3" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 3: Working with Data 🗂️</h2>
+                <p class="text-slate-600 mb-6">Data science starts with data! Let's learn how to create our own dataset (a "data frame") and how to load data from common file types like CSV and Excel.</p>
+            
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Creating a Data Frame</h3>
+                <p class="mb-4">A data frame is R's primary way of storing a table of data, just like a spreadsheet with rows and columns. Let's create a small data frame for our climate analysis.</p>
+<pre><code class="language-r"># Create a data frame of global temperature anomalies
+global_temps <- data.frame(
+  Year = seq(1950, 2020, by=5),
+  Temp_Anomaly_C = c(-0.31, -0.25, -0.18, -0.09, -0.01, 0.05, 0.15, 0.26, 0.35, 0.45, 0.62, 0.72, 0.90, 0.99, 1.02)
+)
+
+# A quick look at our data
+# The '$' symbol lets us access a specific column
+print(global_temps$Year)
+
+# The head() function shows the first 6 rows
+head(global_temps)
+</code></pre>
+                 <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">data.frame(...)</code>: This function creates the data table. Each argument becomes a column.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">Year = seq(...)</code>: Creates a column named <code>Year</code>. The <code>seq()</code> function generates a sequence of numbers from 1950 to 2020 in steps of 5.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">Temp_Anomaly_C = c(...)</code>: Creates a column named <code>Temp_Anomaly_C</code>. The <code>c()</code> function combines all the numbers into a single list (or "vector"). This list must have the same number of items as the Year column.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">global_temps$Year</code>: The dollar sign <code>$</code> is used to access a specific column within a data frame. This command pulls out just the Year column.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">head(global_temps)</code>: This is a very useful function to quickly inspect your data. It shows you the first 6 rows of the data frame.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Module 4: First Visualization -->
+            <section id="module4" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 4: Your First Data Story (Visualization) 📊</h2>
+                <p class="text-slate-600 mb-6">The fastest way to understand data is to see it. We'll use the `ggplot2` package to create a scatter plot and look for a relationship between the year and temperature.</p>
+<pre><code class="language-r"># Make sure you've run library(ggplot2) first!
+# Our data frame from the previous module
+global_temps <- data.frame(
+  Year = seq(1950, 2020, by=5),
+  Temp_Anomaly_C = c(-0.31, -0.25, -0.18, -0.09, -0.01, 0.05, 0.15, 0.26, 0.35, 0.45, 0.62, 0.72, 0.90, 0.99, 1.02)
+)
+
+# Create the plot
+ggplot(data = global_temps, aes(x = Year, y = Temp_Anomaly_C)) +
+  geom_point(color = "blue", size = 3) + # Add points to make a scatter plot
+  labs(
+    title = "Global Temperature Anomaly (1950-2020)",
+    x = "Year",
+    y = "Temperature Anomaly (°C)"
+  ) +
+  theme_minimal()
+</code></pre>
+                 <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                     <p class="text-sm text-slate-700"><code>ggplot</code> builds charts in layers, connected by the <code>+</code> sign.</p>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">ggplot(...)</code>: This initializes the plot. We tell it what <code>data</code> to use and define the <strong>aesthetics</strong> with <code>aes()</code>. Aesthetics map data columns to visual properties. Here, we map <code>Year</code> to the x-axis and <code>Temp_Anomaly_C</code> to the y-axis.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">geom_point(...)</code>: This adds a "geometry" layer. <code>geom_point()</code> creates a scatter plot by drawing a point for each row of data. We can also set visual properties like <code>color</code> and <code>size</code>.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">labs(...)</code>: This adds a "labels" layer, allowing us to set a custom <code>title</code> and axis labels.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">theme_minimal()</code>: This is an optional layer that applies a clean, simple visual style to the plot.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Module 5: Finding Trends (Regression) -->
+            <section id="module5" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 5: Finding Trends (Linear Regression) 📈</h2>
+                <p class="text-slate-600 mb-6">Our eyes see a trend in the scatter plot. Linear regression is a way to formally measure that trend by drawing a straight line that best fits the data.</p>
+<pre><code class="language-r"># Our data frame
+global_temps <- data.frame(
+  Year = seq(1950, 2020, by=5),
+  Temp_Anomaly_C = c(-0.31, -0.25, -0.18, -0.09, -0.01, 0.05, 0.15, 0.26, 0.35, 0.45, 0.62, 0.72, 0.90, 0.99, 1.02)
+)
+
+# Build the linear model
+temp_model <- lm(Temp_Anomaly_C ~ Year, data = global_temps)
+
+# We can add this model as a line on our ggplot chart!
+ggplot(data = global_temps, aes(x = Year, y = Temp_Anomaly_C)) +
+  geom_point(color = "blue", size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + # This adds the trend line
+  labs(title = "Global Temperature Trend Line") +
+  theme_minimal()
+</code></pre>
+                <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">lm(...)</code>: This stands for <strong>linear model</strong>. It's the function that performs the regression analysis.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">Temp_Anomaly_C ~ Year</code>: This is the model <strong>formula</strong>. The tilde <code>~</code> means "is predicted by". This reads: "Predict <code>Temp_Anomaly_C</code> using the <code>Year</code> variable".</li>
+                        <li><code class="bg-slate-200 p-1 rounded">geom_smooth(method = "lm", ...)</code>: This adds another geometry layer to our plot. By specifying <code>method = "lm"</code>, we tell ggplot to draw the exact linear model trend line that we just calculated. <code>se = FALSE</code> hides the confidence interval ribbon.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Module 6: Making Predictions (Classification) -->
+            <section id="module6" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 6: Making Predictions (Decision Trees) 🌳</h2>
+                <p class="text-slate-600 mb-6">What if we want to predict a category, not a number? For example, was a year "Hot" or "Normal"? This is called classification, and a Decision Tree is a perfect, easy-to-understand tool for it.</p>
+<pre><code class="language-r"># First, load the necessary libraries for this task
+library(dplyr)
+library(rpart)
+library(rpart.plot)
+
+# We'll use the same data with an added CO2 level variable
+climate_events <- data.frame(
+  Year = 2001:2010,
+  Temp_Anomaly = c(0.5, 0.6, 0.65, 0.55, 0.7, 0.8, 0.75, 0.9, 0.95, 1.0),
+  CO2_Level = c(370, 372, 373, 375, 380, 382, 385, 388, 390, 392)
+)
+
+# Step 1: Create a category.
+climate_events <- climate_events %>%
+  mutate(Heat_Category = ifelse(Temp_Anomaly > 0.75, "Hot", "Normal"))
+
+# Step 2: Build the tree model
+tree_model <- rpart(Heat_Category ~ Temp_Anomaly + CO2_Level, data = climate_events, method = "class")
+
+# Step 3: Visualize the tree!
+rpart.plot(tree_model, main="Decision Tree for Hot Years")
+</code></pre>
+                 <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">%>%</code>: This is the <strong>pipe operator</strong> from the <code>dplyr</code> package. It takes the result from the left (<code>climate_events</code>) and passes it as the first input to the function on the right (<code>mutate</code>). It lets you chain commands together.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">mutate(...)</code>: This <code>dplyr</code> function adds a new column to a data frame.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">ifelse(...)</code>: This function checks a condition for every row. If <code>Temp_Anomaly > 0.75</code> is true, it assigns "Hot"; otherwise, it assigns "Normal".</li>
+                         <li><code class="bg-slate-200 p-1 rounded">rpart(...)</code>: This function from the <code>rpart</code> package builds the decision tree model. The formula <code>Heat_Category ~ Temp_Anomaly + CO2_Level</code> tells it to predict <code>Heat_Category</code> using the other two variables as predictors.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">rpart.plot(...)</code>: This function from the <code>rpart.plot</code> package creates a nice, easy-to-read visualization of the decision tree rules.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Module 6.5: A More Powerful Model (Random Forest) -->
+            <section id="module6_5" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 6.5: A More Powerful Model (Random Forest) 🌲🌲🌲</h2>
+                <p class="text-slate-600 mb-6">A single decision tree is great for understanding rules, but we can get much better prediction accuracy by combining hundreds of trees together. This powerful method is called a **Random Forest**.</p>
+<pre><code class="language-r"># First, we need another package. Run this once in your console.
+# install.packages("randomForest")
+
+# Load the libraries
+library(randomForest)
+library(dplyr)
+
+# Let's use the same data from the last module
+climate_events <- data.frame(
+  Year = 2001:2010,
+  Temp_Anomaly = c(0.5, 0.6, 0.65, 0.55, 0.7, 0.8, 0.75, 0.9, 0.95, 1.0),
+  CO2_Level = c(370, 372, 373, 375, 380, 382, 385, 388, 390, 392)
+) %>%
+  mutate(Heat_Category = ifelse(Temp_Anomaly > 0.75, "Hot", "Normal"))
+
+# IMPORTANT: Random Forest needs the category to be a "factor"
+climate_events$Heat_Category <- as.factor(climate_events$Heat_Category)
+
+# Build the Random Forest model
+rf_model <- randomForest(Heat_Category ~ Temp_Anomaly + CO2_Level, data = climate_events, ntree = 500)
+
+# Print the model summary
+print(rf_model)
+</code></pre>
+                 <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">library(randomForest)</code>: We load the specific package that contains the Random Forest algorithm.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">as.factor(...)</code>: This function converts our character column ("Hot", "Normal") into a special "factor" type. Many R modeling functions require the target variable for classification to be a factor.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">randomForest(...)</code>: This is the function that builds the model. We use the same formula as before.</li>
+                        <li><code class="bg-slate-200 p-1 rounded">ntree = 500</code>: This is an argument specific to Random Forest. It tells the function how many individual decision trees to build for its "forest". 500 is a common starting point.</li>
+                         <li><code class="bg-slate-200 p-1 rounded">print(rf_model)</code>: This displays a summary of the trained model, including its accuracy estimate (the "OOB error").</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Module 7: Deeper Look (Stats) -->
+            <section id="module7" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 7: A Deeper Look (Statistical Tests) 🧐</h2>
+                <p class="text-slate-600 mb-6">As you advance, you'll use formal statistical tests to check your assumptions and understand relationships in your data. This is a brief introduction to some key concepts.</p>
+
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Correlation Analysis</h3>
+                <p class="mb-4">Correlation measures how strongly two variables are related. The `cor()` function gives a value between -1 and 1.</p>
+<pre><code class="language-r"># Let's check the correlation between Temp Anomaly and CO2 Level
+temp <- c(0.5, 0.6, 0.65, 0.55, 0.7, 0.8, 0.75, 0.9, 0.95, 1.0)
+co2 <- c(370, 372, 373, 375, 380, 382, 385, 388, 390, 392)
+
+# Pearson correlation measures a linear relationship
+cor(temp, co2, method = "pearson")
+# A value close to 1 means a strong positive relationship!
+</code></pre>
+
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Hypothesis Testing (t-test)</h3>
+                <p class="mb-4">A t-test helps us determine if the average of two groups is significantly different. For example, are temperature anomalies from recent years significantly higher than in earlier years?</p>
+<pre><code class="language-r"># Imagine we have two groups of temperature anomalies
+early_years <- c(0.1, 0.15, 0.2, 0.22, 0.25)
+recent_years <- c(0.8, 0.9, 0.95, 1.0, 1.02)
+
+# Independent t-test
+# H₀: The average of the two groups is the same.
+t.test(early_years, recent_years)
+# A very small p-value (like p-value < 2.2e-16) means we reject H₀.
+# The difference is statistically significant!
+</code></pre>
+            </section>
+
+            <!-- Module 8: Project: Forest Fire PM2.5 Estimation -->
+            <section id="module8" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 8: Project: Forest Fire PM2.5 Estimation 🔥</h2>
+                <p class="text-slate-600 mb-6">Let's apply our skills to a real-world problem. Imagine we are monitoring forest fires and want to estimate the air quality impact (PM2.5 levels) in a nearby town based on fire size and weather conditions. This is a perfect job for **Multiple Linear Regression**.</p>
+            
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: The Data</h3>
+                <p class="mb-4">We have data from several past fire events. Our goal is to predict the PM2.5 level based on three predictor variables.</p>
+<pre><code class="language-r"># Data from past forest fire events
+fire_data <- data.frame(
+  Fire_Size_ha = c(120, 300, 50, 800, 450, 200), # Size in hectares
+  Wind_Speed_kmh = c(15, 25, 10, 35, 20, 18),   # Wind speed towards the town
+  Distance_km = c(50, 80, 60, 120, 70, 40),      # Distance from the town
+  PM2_5_ug_m3 = c(45, 60, 25, 110, 75, 65)      # Measured PM2.5 concentration
+)
+
+head(fire_data)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">We create a data frame with our four variables. <code>PM2_5_ug_m3</code> is our <strong>target variable</strong> (what we want to predict), and the others are our <strong>predictor variables</strong>.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Build the Model</h3>
+                <p class="mb-4">We'll build a linear model, but this time with multiple predictors. The formula syntax is simple: just add the predictors together with `+`.</p>
+<pre><code class="language-r"># Build a multiple linear regression model
+fire_model <- lm(PM2_5_ug_m3 ~ Fire_Size_ha + Wind_Speed_kmh + Distance_km, data = fire_data)
+
+# See the results of our model
+summary(fire_model)
+</code></pre>
+                 <div class="explanation">
+                    <h4 class="font-semibold text-slate-800">Code Breakdown:</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm text-slate-700 space-y-1">
+                        <li><code class="bg-slate-200 p-1 rounded">PM2_5_ug_m3 ~ ...</code>: The formula now reads "Predict PM2.5 using Fire Size, Wind Speed, AND Distance".</li>
+                        <li><code class="bg-slate-200 p-1 rounded">summary(fire_model)</code>: This gives a detailed report on the model. Look at the "Coefficients" table. The "Estimate" for each variable tells you how much the PM2.5 is expected to change for a one-unit increase in that variable, holding others constant.</li>
+                    </ul>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: Make a Prediction</h3>
+                <p class="mb-4">Now for the exciting part. A new fire has started. We can use our model to predict the PM2.5 impact.</p>
+<pre><code class="language-r"># Create a data frame with the new fire's data
+new_fire <- data.frame(
+  Fire_Size_ha = c(600),
+  Wind_Speed_kmh = c(30),
+  Distance_km = c(90)
+)
+
+# Use the model to predict the PM2.5 level
+predicted_pm2_5 <- predict(fire_model, newdata = new_fire)
+
+print(predicted_pm2_5)
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">The <code>predict()</code> function takes our trained model and a new data frame (<code>newdata</code>) with the same column names as our predictors. It then outputs the estimated PM2.5 value, giving authorities a valuable early warning.</p>
+                </div>
+            </section>
+
+            <!-- Module 9: Project: City GHG Emission Estimation -->
+            <section id="module9" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 9: Project: City GHG Emission Estimation 🏙️</h2>
+                <p class="text-slate-600 mb-6">For our final project, let's tackle a major climate change issue: estimating a city's total greenhouse gas (GHG) emissions. Since the relationships between factors like population, industry, and emissions can be complex and non-linear, a **Random Forest** is an excellent choice for this regression task.</p>
+            
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: The City Data</h3>
+                <p class="mb-4">We have data for several cities, including demographic and economic indicators, and their total measured emissions.</p>
+<pre><code class="language-r"># Data for multiple cities
+city_ghg_data <- data.frame(
+  Population_millions = c(8.5, 1.2, 3.4, 0.8, 5.1, 2.5),
+  Vehicles_lakhs = c(30, 5, 12, 3, 18, 9),
+  Industrial_Output_bn = c(500, 80, 250, 50, 350, 180),
+  Green_Cover_pct = c(15, 25, 20, 30, 18, 22),
+  GHG_Emissions_co2e_mt = c(40, 7, 22, 5, 30, 15) # Target: Metric tons of CO2 equivalent
+)
+
+head(city_ghg_data)
+</code></pre>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Build a Random Forest Regressor</h3>
+                <p class="mb-4">We will build a Random Forest model, but this time it will predict a continuous number (emissions) instead of a category. The syntax is nearly identical.</p>
+<pre><code class="language-r"># Make sure the library is loaded
+library(randomForest)
+
+# Build the Random Forest regression model
+# The formula GHG_Emissions_co2e_mt ~ . means "predict GHG using all other variables"
+ghg_model <- randomForest(GHG_Emissions_co2e_mt ~ ., data = city_ghg_data, ntree = 500)
+
+print(ghg_model)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">When you print the model, notice the "Type of random forest" is now <strong>regression</strong>. Instead of an error rate, you get a "Mean of squared residuals" and "% Var explained". A higher "% Var explained" is better, indicating your model captures more of the patterns in the data.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: Find the Most Important Factors</h3>
+                <p class="mb-4">A key benefit of Random Forest is its ability to rank which variables are the most influential in making predictions.</p>
+<pre><code class="language-r"># Get variable importance from the model
+importance_scores <- importance(ghg_model)
+
+# Print the scores
+print(importance_scores)
+
+# Plot the scores for a visual ranking
+varImpPlot(ghg_model)
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">The <code>importance()</code> function and <code>varImpPlot()</code> show which factors the model relied on most. This is incredibly useful for policymakers. If Industrial Output is the most important factor, they know where to focus their efforts to reduce emissions. This moves us from just prediction to generating actionable insights.</p>
+                </div>
+            </section>
+            
+            <!-- Module 10: Project: Cyclone Intensity Prediction -->
+            <section id="module10" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 10: Project: Cyclone Intensity Prediction 🌀</h2>
+                <p class="text-slate-600 mb-6">Can we predict if a developing cyclone will intensify into a "Severe" or "Very Severe" storm? This is a high-stakes **multi-class classification** problem. We will use a powerful model called a **Support Vector Machine (SVM)**, which is excellent at finding clear dividing lines between multiple classes.</p>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: The Cyclone Data</h3>
+                <p class="mb-4">We have data on past cyclones, now with three categories: Standard, Severe, and Very Severe.</p>
+<pre><code class="language-r"># Data on past cyclone events with three categories
+cyclone_data <- data.frame(
+  Wind_Speed_kmh = c(80, 95, 110, 130, 150, 180, 195, 210, 220, 240),
+  Sea_Surface_Temp_C = c(27.5, 28.1, 28.5, 29.0, 29.5, 30.0, 30.1, 30.4, 30.5, 30.8),
+  Atm_Pressure_mb = c(990, 985, 980, 970, 960, 945, 938, 925, 920, 905),
+  Category = as.factor(c("Standard", "Standard", "Standard", "Severe", "Severe", "Severe", "Severe", "Very Severe", "Very Severe", "Very Severe"))
+)
+
+head(cyclone_data)
+</code></pre>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Build the SVM Model</h3>
+                <p class="mb-4">An SVM works by finding the optimal "hyperplanes" that best separate the data points of the different classes. The `e1071` package handles this automatically, even with more than two classes.</p>
+<pre><code class="language-r"># Load the library for SVM
+library(e1071)
+
+# Build the SVM classification model
+svm_model <- svm(Category ~ ., data = cyclone_data)
+
+# Print a summary of the model
+summary(svm_model)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">The <code>svm()</code> function builds our model. The formula <code>Category ~ .</code> means "predict Category using all other variables". The function automatically detects there are three categories and performs multi-class classification.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: Predict a New Cyclone's Path</h3>
+                <p class="mb-4">A powerful new cyclone is forming. Let's use our model to classify its likely intensity.</p>
+<pre><code class="language-r"># New cyclone data that looks dangerous
+new_storm_to_predict <- data.frame(
+  Wind_Speed_kmh = 230,
+  Sea_Surface_Temp_C = 30.6,
+  Atm_Pressure_mb = 915
+)
+
+# Predict the category
+predicted_category <- predict(svm_model, newdata = new_storm_to_predict)
+
+print(predicted_category)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">The <code>predict()</code> function uses the learned boundaries from our SVM model to classify the new data point. Based on the training data, the model will now classify this new storm into one of the three categories: "Standard", "Severe", or "Very Severe".</p>
+                </div>
+            </section>
+            
+            <!-- Module 11: Project: Heat Wave Forecasting -->
+            <section id="module11" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 11: Project: Heat Wave Forecasting ☀️</h2>
+                <p class="text-slate-600 mb-6">Can we predict the *probability* of a heat wave occurring tomorrow? This is a binary classification problem where the probability itself is valuable. We will use **Logistic Regression**, a fundamental model for this type of task.</p>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: The Weather Data</h3>
+                <p class="mb-4">We have historical daily weather data and whether a heat wave was declared on that day.</p>
+<pre><code class="language-r"># Historical weather data for a city like Kochi
+heatwave_data <- data.frame(
+  Max_Temp_C = c(33, 34, 35, 36, 37, 38, 35, 34, 36, 39),
+  Humidity_pct = c(75, 78, 80, 82, 85, 88, 70, 72, 83, 90),
+  Previous_Day_Temp = c(32, 33, 34, 35, 36, 37, 34, 33, 35, 38),
+  Heat_Wave = c(0, 0, 0, 1, 1, 1, 0, 0, 1, 1) # 1 = Yes, 0 = No
+)
+</code></pre>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Build the Logistic Regression Model</h3>
+                <p class="mb-4">Logistic regression models the probability of a binary outcome. We use the `glm()` (Generalized Linear Model) function with `family = "binomial"` to specify this.</p>
+<pre><code class="language-r"># Build the logistic regression model
+heatwave_model <- glm(Heat_Wave ~ ., data = heatwave_data, family = "binomial")
+
+# View the model summary
+summary(heatwave_model)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">The <code>glm()</code> function is very powerful. Setting <code>family = "binomial"</code> tells it to use a logistic link function, which constrains the output to be between 0 and 1. The summary coefficients tell you how each variable impacts the *log-odds* of a heat wave occurring.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: Predict the Probability</h3>
+                <p class="mb-4">Let's forecast the chance of a heat wave based on tomorrow's weather prediction.</p>
+<pre><code class="language-r"># Tomorrow's weather forecast
+tomorrow_forecast <- data.frame(
+  Max_Temp_C = 38,
+  Humidity_pct = 87,
+  Previous_Day_Temp = 37 # Today's max temp
+)
+
+# Predict the probability
+# The type = "response" argument outputs the prediction as a probability (0 to 1)
+heatwave_prob <- predict(heatwave_model, newdata = tomorrow_forecast, type = "response")
+
+print(heatwave_prob)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">A key difference in predicting with `glm` is the <code>type = "response"</code> argument. This converts the log-odds output into a simple, interpretable probability. An output of `0.85` means there is an estimated 85% chance of a heat wave tomorrow, allowing for public warnings to be issued.</p>
+                </div>
+            </section>
+            
+            <!-- Module 12: Project: Disease Spread Modeling -->
+            <section id="module12" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 12: Project: Disease Spread Modeling 🦠</h2>
+                <p class="text-slate-600 mb-6">How can we model and forecast the number of new cases during an outbreak? Since the number of cases is *count data* (non-negative integers), a special type of regression is needed. We will use **Poisson Regression**.</p>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: The Outbreak Data</h3>
+                <p class="mb-4">We have data on the number of new cases reported each day since an outbreak began.</p>
+<pre><code class="language-r"># Daily new cases during an outbreak
+disease_data <- data.frame(
+  Day = 1:15,
+  New_Cases = c(3, 5, 6, 8, 12, 15, 20, 25, 32, 40, 51, 65, 80, 98, 120)
+)
+</code></pre>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Build the Poisson Regression Model</h3>
+                <p class="mb-4">Poisson regression is a type of Generalized Linear Model (`glm`) specifically for count data. We specify this by setting `family = "poisson"`.</p>
+<pre><code class="language-r"># Build the Poisson regression model
+disease_model <- glm(New_Cases ~ Day, data = disease_data, family = "poisson")
+
+# View the model summary
+summary(disease_model)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">This model assumes that the logarithm of the expected number of cases is a linear function of the `Day`. It's perfect for modeling exponential growth often seen in the early stages of an epidemic.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: Forecast the Next 3 Days</h3>
+                <p class="mb-4">Let's use our model to project the number of new cases over the next three days.</p>
+<pre><code class="language-r"># Create a data frame for the days we want to forecast
+future_days <- data.frame(Day = 16:18)
+
+# Predict the number of new cases
+# type = "response" gives us the prediction on the original scale (number of cases)
+predicted_cases <- predict(disease_model, newdata = future_days, type = "response")
+
+# Print the forecast
+print(predicted_cases)
+</code></pre>
+                 <div class="explanation">
+                    <p class="text-sm text-slate-700">The output will be the expected number of new cases for Day 16, 17, and 18. This kind of short-term forecasting is crucial for healthcare providers to anticipate resource needs like hospital beds and staff.</p>
+                </div>
+            </section>
+            
+            <!-- Module 13: Project: COVID-19 Indoor Risk -->
+            <section id="module13" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 13: Project: COVID-19 Indoor Risk 😷</h2>
+                <p class="text-slate-600 mb-6">Let's model something that has affected all our lives: the risk of airborne disease transmission in an indoor space. We will implement the famous **Wells-Riley model**, a cornerstone of epidemiology, to estimate the probability of COVID-19 infection.</p>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: Understanding the Wells-Riley Model 🧪</h3>
+                <p class="mb-4">The model isn't machine learning in the same way as a Random Forest, but it's a powerful predictive formula. It's based on the concept of "quanta of infection"—doses of airborne virus particles. The probability of infection depends on how many of these quanta a susceptible person inhales.</p>
+                
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Building the Basic Model in R 🏠</h3>
+                <p class="mb-4">First, let's turn the scientific formula into a reusable R function. This is a key skill for any data scientist!</p>
+<pre><code class="language-r"># This function calculates the basic Wells-Riley probability
+calculate_wells_riley_prob <- function(infectors, quanta_rate, breathing_rate, duration_hours, room_volume_m3, ventilation_ach) {
+    # Calculate ventilation in m3/hr
+    ventilation_rate_m3_hr <- room_volume_m3 * ventilation_ach
+    # Calculate the number of inhaled quanta
+    inhaled_quanta <- (infectors * quanta_rate * breathing_rate * duration_hours) / ventilation_rate_m3_hr
+    # Calculate probability of infection
+    probability <- 1 - exp(-inhaled_quanta)
+    return(probability)
+}
+
+# --- SCENARIO: A poorly ventilated classroom ---
+prob_classroom <- calculate_wells_riley_prob(
+    infectors = 1,                 # One infectious person
+    quanta_rate = 14,              # Quanta per hour (speaking)
+    breathing_rate = 0.5,          # m3 per hour
+    duration_hours = 2,            # 2-hour class
+    room_volume_m3 = 150,          # 150 cubic meter room
+    ventilation_ach = 1            # 1 Air Change per Hour (low)
+)
+
+print(paste("Initial infection risk:", round(prob_classroom * 100, 2), "%"))
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">We created a function that takes all the key inputs of the model and calculates the risk. We then used it to estimate that in a 2-hour class with one infectious person, the risk for any other person is over 9%.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: A Modified Model with Interventions 🛡️</h3>
+                <p class="mb-4">The real power of this model is testing "what-if" scenarios. Let's create a more advanced function that includes the effect of masks and portable air cleaners (HEPA filters).</p>
+<pre><code class="language-r"># A modified function including masks and air purifiers
+calculate_modified_risk <- function(infectors, quanta_rate, breathing_rate, duration_hours, room_volume_m3, ventilation_ach, mask_efficiency, air_cleaner_cadr_m3_hr) {
+    # Effective quanta rate is reduced by masks
+    effective_quanta_rate <- quanta_rate * (1 - mask_efficiency)^2
+    # Total removal rate = ventilation + air cleaning
+    total_removal_rate_m3_hr <- (room_volume_m3 * ventilation_ach) + air_cleaner_cadr_m3_hr
+    # Inhaled quanta is also reduced by the wearer's mask
+    inhaled_quanta <- ((infectors * effective_quanta_rate * breathing_rate * duration_hours) / total_removal_rate_m3_hr) * (1 - mask_efficiency)
+    # Calculate final probability
+    probability <- 1 - exp(-inhaled_quanta)
+    return(probability)
+}
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">This new function adds two key parameters: <code>mask_efficiency</code> (a value from 0 to 1) and <code>air_cleaner_cadr_m3_hr</code> (the Clean Air Delivery Rate of a HEPA filter in cubic meters per hour). Notice how these factors reduce the number of quanta at different stages of the calculation.</p>
+                </div>
+                
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 4: Comparing Scenarios 🆚</h3>
+                <p class="mb-4">Now let's use our new function on the same classroom scenario, but this time with safety measures in place.</p>
+<pre><code class="language-r"># --- SCENARIO: The same classroom, but now with safety measures ---
+prob_safe_classroom <- calculate_modified_risk(
+    infectors = 1,
+    quanta_rate = 14,
+    breathing_rate = 0.5,
+    duration_hours = 2,
+    room_volume_m3 = 150,
+    ventilation_ach = 1,
+    mask_efficiency = 0.5,         # 50% effective masks (e.g., surgical masks)
+    air_cleaner_cadr_m3_hr = 250   # A good-sized HEPA filter
+)
+
+print(paste("Risk with interventions:", round(prob_safe_classroom * 100, 2), "%"))
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700"><strong>Look at the difference!</strong> By adding masks and an air purifier, the estimated infection risk plummets from over 9% to less than 1%. This demonstrates how you can use data modeling to make informed decisions and quantify the impact of public health interventions.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 5: Visualizing the Impact of Interventions 📊</h3>
+                <p class="mb-4">While printing numbers is useful, a chart is often more powerful for communicating results. Let's create a bar chart to compare the risks across different scenarios.</p>
+<pre><code class="language-r"># Make sure ggplot2 is loaded
+library(ggplot2)
+
+# --- Calculate risk for each scenario ---
+
+# Scenario 1: No Interventions
+risk_baseline <- calculate_modified_risk(1, 14, 0.5, 2, 150, 1, 0, 0)
+# Scenario 2: Masks Only (50% effective)
+risk_masks_only <- calculate_modified_risk(1, 14, 0.5, 2, 150, 1, 0.5, 0)
+# Scenario 3: HEPA Filter Only
+risk_hepa_only <- calculate_modified_risk(1, 14, 0.5, 2, 150, 1, 0, 250)
+# Scenario 4: Masks + HEPA Filter
+risk_masks_and_hepa <- calculate_modified_risk(1, 14, 0.5, 2, 150, 1, 0.5, 250)
+
+# --- Create a data frame for plotting ---
+scenario_data <- data.frame(
+  Scenario = c("No Interventions", "Masks Only", "HEPA Filter Only", "Masks + HEPA"),
+  Risk = c(risk_baseline, risk_masks_only, risk_hepa_only, risk_masks_and_hepa)
+)
+
+# --- Create the bar chart ---
+ggplot(scenario_data, aes(x = Scenario, y = Risk * 100)) +
+  geom_col(fill = "#3b82f6") +
+  geom_text(aes(label = paste0(round(Risk * 100, 2), "%")), vjust = -0.5, color = "black", size = 4) +
+  labs(
+    title = "COVID-19 Infection Risk Reduction in a Classroom",
+    subtitle = "Comparing the effectiveness of different safety measures",
+    x = "Intervention Scenario",
+    y = "Estimated Infection Risk (%)"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_y_continuous(limits = c(0, 10)) # Set y-axis limit to make small bars more visible
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">This chart clearly shows how each intervention dramatically reduces the risk. The combined effect of masks and a HEPA filter is the most effective, making the space significantly safer. This is a powerful way to present your findings to others.</p>
+                </div>
+            </section>
+
+            <!-- Module 13.5: Advanced COVID Risk -->
+            <section id="module13_5" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Module 13.5: Advanced COVID-19 Risk Modeling 🔬</h2>
+                <p class="text-slate-600 mb-6">The Wells-Riley model is a great start, but modern research has improved it. Let's build a more sophisticated model that includes two new, crucial concepts: **viral load decay** and a **dose-response relationship**.</p>
+                
+                <h3 class="text-2xl font-semibold mt-6 mb-3">Step 1: Understanding the New Concepts 🧬</h3>
+                <ul class="list-disc list-inside space-y-2 text-slate-700 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <li>
+                        <strong>Viral Load Decay:</strong> Virus particles in aerosols don't remain infectious forever. They lose viability due to factors like UV light, humidity, and temperature. We can model this as an exponential decay rate.
+                    </li>
+                    <li>
+                        <strong>Dose-Response:</strong> Getting infected isn't a simple on/off switch. The more virus particles you inhale (the dose), the higher your probability of infection. This relationship is often not linear and can be modeled with a dose-response curve.
+                    </li>
+                </ul>
+                
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 2: Building the Advanced Model in R 🔬</h3>
+                <p class="mb-4">We'll create a new function that incorporates these more realistic parameters.</p>
+<pre><code class="language-r"># An advanced function with viral decay and dose-response
+calculate_advanced_covid_risk <- function(infectors, quanta_rate, breathing_rate, duration_hours, room_volume_m3, ventilation_ach, viral_decay_rate_per_hr, dose_response_k) {
+    # Total removal rate now includes viral decay
+    total_removal_rate = ventilation_ach + viral_decay_rate_per_hr
+    # Calculate the average concentration of infectious quanta in the room air
+    avg_quanta_concentration <- (infectors * quanta_rate) / (total_removal_rate * room_volume_m3)
+    # Calculate total inhaled dose over the duration
+    inhaled_dose <- avg_quanta_concentration * breathing_rate * duration_hours
+    # Calculate probability of infection using the dose-response model
+    # This formula is P = 1 - exp(-k * D), where D is the dose and k is a pathogen-specific constant
+    probability <- 1 - exp(-dose_response_k * inhaled_dose)
+    return(probability)
+}
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">This function is more physically realistic. It calculates the average steady-state concentration of infectious material in the room and then uses that to calculate the total dose inhaled by a susceptible person. The final probability is then determined by a dose-response function, which is a standard in toxicology and epidemiology.</p>
+                </div>
+                
+                <h3 class="text-2xl font-semibold mt-8 mb-3">Step 3: Comparing the Models 📊</h3>
+                <p class="mb-4">Let's re-run our original classroom scenario. How does the risk estimate change with this more nuanced model?</p>
+<pre><code class="language-r"># --- SCENARIO: The same poorly ventilated classroom, with the advanced model ---
+prob_advanced <- calculate_advanced_covid_risk(
+    infectors = 1,
+    quanta_rate = 14,
+    breathing_rate = 0.5,
+    duration_hours = 2,
+    room_volume_m3 = 150,
+    ventilation_ach = 1,
+    viral_decay_rate_per_hr = 0.6, # Assuming virus loses ~45% viability per hour
+    dose_response_k = 0.002        # A hypothetical constant for this virus variant
+)
+
+# Let's recall our original estimate
+prob_classroom <- 1 - exp(- (1 * 14 * 0.5 * 2) / (150 * 1))
+
+print(paste("Original Wells-Riley Risk:", round(prob_classroom * 100, 2), "%"))
+print(paste("Advanced Model Risk:", round(prob_advanced * 100, 2), "%"))
+</code></pre>
+                <div class="explanation">
+                    <p class="text-sm text-slate-700">You'll likely see that the advanced model predicts a slightly lower risk. This is because it accounts for the fact that some of the virus becomes non-infectious over the 2-hour period. This is the essence of scientific modeling: starting with a simple model and gradually adding complexity to better reflect reality.</p>
+                </div>
+            </section>
+
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">Knowledge Check ✅</h2>
+                <p class="text-slate-600 mb-8">Test your understanding with this short quiz based on the modules.</p>
+                <div id="quiz-container" class="space-y-8">
+                    <!-- Quiz questions will be injected here by JS -->
+                </div>
+                <div class="mt-8 flex justify-between items-center">
+                    <button id="submit-quiz" class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition-transform transform hover:scale-105 disabled:bg-slate-400 disabled:cursor-not-allowed">Submit Answers</button>
+                    <div id="quiz-result" class="text-xl font-bold"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.sidebar-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        const quizContainer = document.getElementById('quiz-container');
+        const submitQuizBtn = document.getElementById('submit-quiz');
+        const quizResultEl = document.getElementById('quiz-result');
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        // --- Navigation ---
+        function showContent(hash) {
+            contentSections.forEach(section => {
+                if ('#' + section.id === hash) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        
+        document.getElementById('nav-links').addEventListener('click', (e) => {
+            const link = e.target.closest('.sidebar-link');
+            if (link) {
+                e.preventDefault();
+                const hash = link.getAttribute('href');
+                window.location.hash = hash;
+                if (window.innerWidth < 768) { 
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+        });
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash || '#home';
+            showContent(hash);
+        });
+
+        const initialHash = window.location.hash || '#home';
+        showContent(initialHash);
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        document.querySelectorAll('pre').forEach(pre => {
+            const code = pre.querySelector('code').innerText;
+            const copyBtn = document.createElement('button');
+            copyBtn.innerText = 'Copy';
+            copyBtn.className = 'copy-btn';
+            
+            const tooltip = document.createElement('span');
+            tooltip.innerText = 'Copied!';
+            tooltip.className = 'absolute -top-8 right-0 bg-slate-800 text-white text-xs px-2 py-1 rounded hidden';
+            copyBtn.appendChild(tooltip);
+
+            copyBtn.addEventListener('click', () => {
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = code;
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+                try {
+                    document.execCommand('copy');
+                    tooltip.classList.remove('hidden');
+                    setTimeout(() => tooltip.classList.add('hidden'), 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+                document.body.removeChild(tempTextarea);
+            });
+            pre.appendChild(copyBtn);
+        });
+        
+        // --- Quiz ---
+        const quizQuestions = [
+            {
+                question: "What symbol is used to assign a value to a variable in R?",
+                options: ["=", "<-", "=>", "=="],
+                answer: "<-"
+            },
+            {
+                question: "Which function is used to look at the first few rows of a data frame?",
+                options: ["first()", "top()", "head()", "summary()"],
+                answer: "head()"
+            },
+            {
+                question: "A key advantage of Random Forest shown in the GHG project is its ability to...",
+                options: ["Create scatter plots", "Perform t-tests", "Rank the importance of predictor variables", "Only predict two categories"],
+                answer: "Rank the importance of predictor variables"
+            },
+            {
+                question: "Which model is ideal for finding a clear separating boundary between two classes, like 'Standard' and 'Severe' cyclones?",
+                options: ["Linear Regression", "Support Vector Machine (SVM)", "Poisson Regression", "t-test"],
+                answer: "Support Vector Machine (SVM)"
+            },
+            {
+                question: "To predict the probability of a binary event (e.g., Heat Wave Yes/No), which function and family would you use?",
+                options: ["lm(..., family='binary')", "svm(..., type='probability')", "glm(..., family='binomial')", "randomForest(..., type='prob')"],
+                answer: "glm(..., family='binomial')"
+            }
+        ];
+
+        let userAnswers = {};
+
+        function renderQuiz() {
+            quizContainer.innerHTML = '';
+            quizQuestions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'bg-white p-6 rounded-lg shadow-sm border border-slate-200';
+                
+                const questionText = document.createElement('p');
+                questionText.className = 'font-semibold text-lg mb-4';
+                questionText.textContent = `${index + 1}. ${q.question}`;
+                questionBlock.appendChild(questionText);
+                
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'space-y-3';
+                optionsContainer.dataset.questionIndex = index;
+
+                q.options.forEach(optionText => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'quiz-option p-3 border-2 border-slate-200 rounded-md';
+                    optionDiv.textContent = optionText;
+                    optionDiv.addEventListener('click', () => {
+                        optionsContainer.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+                        optionDiv.classList.add('selected');
+                        userAnswers[index] = optionText;
+                    });
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                questionBlock.appendChild(optionsContainer);
+                quizContainer.appendChild(questionBlock);
+            });
+        }
+
+        submitQuizBtn.addEventListener('click', () => {
+            let score = 0;
+            quizQuestions.forEach((q, index) => {
+                const options = quizContainer.querySelectorAll(`[data-question-index="${index}"] .quiz-option`);
+                const correctAnswer = q.answer;
+                const userAnswer = userAnswers[index];
+
+                options.forEach(option => {
+                    option.classList.remove('selected');
+                    const optionText = option.textContent;
+                    if (optionText === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                    if (optionText === userAnswer && userAnswer !== correctAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+            });
+            
+            quizResultEl.textContent = `Your Score: ${score} / ${quizQuestions.length}`;
+            submitQuizBtn.disabled = true;
+            quizContainer.querySelectorAll('.quiz-option').forEach(opt => opt.style.pointerEvents = 'none');
+        });
+
+        renderQuiz();
+
+    });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
